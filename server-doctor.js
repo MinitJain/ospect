@@ -1,47 +1,103 @@
 const os = require("os");
 
-console.log(os.platform());
-console.log(os.hostname());
-console.log(os.arch());
+function getSystemInfo() {
+  const uptime = os.uptime();
 
-const uptime = os.uptime();
+  const uptimeHours = Math.floor(uptime / 3600);
+  const uptimeMinutes = Math.floor((uptime % 3600) / 60);
+  const uptimeSeconds = Math.floor(uptime % 60);
 
-console.log(
-  "UPTIME:",
-  Math.floor(uptime / 3600) +
-    " hours" +
-    " " +
-    Math.floor((uptime % 3600) / 60) +
-    " minutes" +
-    " " +
-    (uptime % 60) +
-    " seconds",
-);
+  return {
+    platform: os.platform(),
+    hostname: os.hostname(),
+    arch: os.arch(),
+    uptime: `${uptimeHours} hours ${uptimeMinutes} minutes ${uptimeSeconds} seconds`,
+  };
+}
 
-const totalMemory = os.totalmem();
-const freeMemory = os.freemem();
-const usedMemory = totalMemory - freeMemory;
-const memoryUsage = (usedMemory / totalMemory) * 100;
+function getMemoryInfo() {
+  const totalMemory = os.totalmem();
+  const freeMemory = os.freemem();
+  const usedMemory = totalMemory - freeMemory;
+  const memoryUsage = (usedMemory / totalMemory) * 100;
 
-const BYTES_PER_KB = 1024;
-const BYTES_PER_MB = 1024 * 1024;
-const BYTES_PER_GB = 1024 * 1024 * 1024;
+  return {
+    totalMemory,
+    freeMemory,
+    usedMemory,
+    memoryUsage,
+  };
+}
 
-console.log(
-  "Total Memory:",
-  (totalMemory / BYTES_PER_GB).toFixed(2) +
-    " GB, " +
-    (totalMemory / BYTES_PER_MB).toFixed(2) +
-    " MB, " +
-    (totalMemory / BYTES_PER_KB).toFixed(2) +
-    " KB",
-);
+function getCPUInfo() {
+  const cpus = os.cpus();
+  const cpuModel = cpus[0].model;
+  const logicalCPUs = cpus.length;
 
-console.log("Used Memory:", (usedMemory / BYTES_PER_GB).toFixed(2) + " GB");
+  return {
+    cpuModel: cpuModel,
+    logicalCPUs: logicalCPUs,
+  };
+}
 
-console.log("Free Memory:", (freeMemory / BYTES_PER_GB).toFixed(2) + " GB");
+const systemInfo = getSystemInfo();
+const memoryInfo = getMemoryInfo();
+const cpuInfo = getCPUInfo();
 
-console.log("Memory Usage:", memoryUsage.toFixed(2) + "%");
+const serverDoctorReport = {
+  systemInfo,
+  memoryInfo,
+  cpuInfo,
+};
 
-console.log("CPU Model:", os.cpus()[0].model);
-console.log("Logical CPUs:", os.cpus().length);
+function runHealthChecks(report) {
+  if (report.memoryInfo.memoryUsage > 90) {
+    return "Memory usage is critical";
+  }
+
+  if (report.memoryInfo.memoryUsage > 80) {
+    return "Memory usage is high";
+  }
+
+  return "Memory usage is healthy";
+}
+
+function printReport(report) {
+  const BYTES_PER_GB = 1024 * 1024 * 1024;
+
+  console.log("============SERVER DOCTOR REPORT================");
+  console.log("OS:", report.systemInfo.platform);
+  console.log("Hostname:", report.systemInfo.hostname);
+  console.log("Architecture:", report.systemInfo.arch);
+  console.log("Uptime:", report.systemInfo.uptime);
+  console.log("Memory Usage:", report.memoryInfo.memoryUsage.toFixed(2) + "%");
+  console.log("CPU Model:", report.cpuInfo.cpuModel);
+  console.log("Logical CPUs:", report.cpuInfo.logicalCPUs);
+  console.log("Health:", report.healthStatus);
+
+  console.log(
+    "Total Memory:",
+    (report.memoryInfo.totalMemory / BYTES_PER_GB).toFixed(2) + " GB",
+  );
+
+  console.log(
+    "Free Memory:",
+    (report.memoryInfo.freeMemory / BYTES_PER_GB).toFixed(2) + " GB",
+  );
+
+  console.log(
+    "Used Memory:",
+    (report.memoryInfo.usedMemory / BYTES_PER_GB).toFixed(2) + " GB",
+  );
+}
+
+const healthStatus = runHealthChecks(serverDoctorReport);
+
+const finalReport = {
+  systemInfo,
+  memoryInfo,
+  cpuInfo,
+  healthStatus,
+};
+
+printReport(finalReport);
