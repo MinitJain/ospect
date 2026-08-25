@@ -4,6 +4,14 @@ const getCPUInfo = require("./src/cpu/cpuInfo");
 const runHealthChecks = require("./src/health/healthChecks");
 const printReport = require("./src/report/reportInfo");
 const getProcessInfo = require("./src/process/processInfo");
+const getRecommendations = require("./src/recommendations/recommendations");
+const runCLI = require("./src/cli/cli");
+
+const cliResult = runCLI();
+
+if (cliResult === true) {
+  process.exit(0);
+}
 
 const systemInfo = getSystemInfo();
 const memoryInfo = getMemoryInfo();
@@ -23,8 +31,15 @@ const finalReport = {
   systemInfo,
   memoryInfo,
   cpuInfo,
+  processInfo,
   healthStatus,
 };
 
-printReport(finalReport);
-console.log(processInfo);
+const recommendations = getRecommendations(finalReport);
+
+const completeReport = {
+  ...finalReport,
+  recommendations,
+};
+
+printReport(completeReport);

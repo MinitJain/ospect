@@ -19,6 +19,21 @@ function printReport(report) {
   console.log("Health Value:", report.healthStatus.value.toFixed(2) + "%\n");
 
   console.log(
+    "Top Memory Process:",
+    report.healthStatus.topMemoryProcess.command,
+  );
+
+  console.log(
+    "Top Memory Process PID:",
+    report.healthStatus.topMemoryProcess.pid,
+  );
+
+  console.log(
+    "Top Memory Process Usage:",
+    report.healthStatus.topMemoryProcess.memory + "%\n",
+  );
+
+  console.log(
     "Total Memory:",
     (report.memoryInfo.totalMemory / BYTES_PER_GB).toFixed(2) + " GB",
   );
@@ -32,6 +47,28 @@ function printReport(report) {
     "Used Memory:",
     (report.memoryInfo.usedMemory / BYTES_PER_GB).toFixed(2) + " GB\n",
   );
+
+  console.log("\nTop Processes by Memory:");
+
+  report.processInfo.topMemoryProcesses.forEach((process) => {
+    console.log(
+      `PID: ${process.pid} | CPU: ${process.cpu}% | Memory: ${process.memory}% | RSS: ${process.rss} KB | ${process.command}`,
+    );
+  });
+
+  console.log("\nTop Processes by CPU:");
+
+  report.processInfo.topCPUProcesses.forEach((process) => {
+    console.log(
+      `PID: ${process.pid} | CPU: ${process.cpu}% | Memory: ${process.memory}% | RSS: ${process.rss} KB | ${process.command}`,
+    );
+  });
+
+  console.log("\nRecommendations:");
+
+  report.recommendations.forEach((recommendation, index) => {
+    console.log(`${index + 1}. ${recommendation}`);
+  });
 }
 
 module.exports = printReport;

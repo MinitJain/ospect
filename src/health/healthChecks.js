@@ -1,24 +1,31 @@
 function runHealthChecks(report) {
-  if (report.memoryInfo.memoryUsage > 90) {
+  const memoryUsage = report.memoryInfo.memoryUsage;
+
+  const topMemoryProcess = report.processInfo.topMemoryProcesses[0];
+
+  if (memoryUsage > 90) {
     return {
       status: "critical",
       message: "Memory usage is critical",
-      value: report.memoryInfo.memoryUsage,
+      value: memoryUsage,
+      topMemoryProcess,
     };
   }
 
-  if (report.memoryInfo.memoryUsage > 80) {
+  if (memoryUsage > 80) {
     return {
       status: "warning",
       message: "Memory usage is high",
-      value: report.memoryInfo.memoryUsage,
+      value: memoryUsage,
+      topMemoryProcess,
     };
   }
 
   return {
     status: "healthy",
     message: "Memory usage is healthy",
-    value: report.memoryInfo.memoryUsage,
+    value: memoryUsage,
+    topMemoryProcess,
   };
 }
 
