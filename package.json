@@ -1,0 +1,30 @@
+{
+  "name": "server-doctor",
+  "version": "0.0.1",
+  "description": "A Linux server diagnostics CLI built with Node.js.",
+  "main": "server-doctor.js",
+  "bin": {
+    "server-doctor": "./server-doctor.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MinitJain/server-doctor.git"
+  },
+  "keywords": [
+    "linux",
+    "server",
+    "cli",
+    "system-monitoring",
+    "diagnostics"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/MinitJain/server-doctor/issues"
+  },
+  "homepage": "https://github.com/MinitJain/server-doctor#readme"
+}

@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const getSystemInfo = require("./src/system/systemInfo");
 const getMemoryInfo = require("./src/memory/memoryInfo");
 const getCPUInfo = require("./src/cpu/cpuInfo");
