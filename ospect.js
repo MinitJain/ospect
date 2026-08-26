@@ -20,14 +20,14 @@ const memoryInfo = getMemoryInfo();
 const cpuInfo = getCPUInfo();
 const processInfo = getProcessInfo();
 
-const serverDoctorReport = {
+const ospectReport = {
   systemInfo,
   memoryInfo,
   cpuInfo,
   processInfo,
 };
 
-const healthStatus = runHealthChecks(serverDoctorReport);
+const healthStatus = runHealthChecks(ospectReport);
 
 const finalReport = {
   systemInfo,

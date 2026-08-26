@@ -1,8 +1,8 @@
-# Server Doctor Architecture
+# Ospect Architecture
 
 ## Goal
 
-Server Doctor is a cross platform CLI system monitoring tool.
+Ospect is a cross platform CLI system monitoring tool.
 
 It collects system information, analyzes resource usage,
 runs health checks, and provides recommendations.
@@ -11,7 +11,7 @@ runs health checks, and provides recommendations.
 
 CLI
 ↓
-server-doctor.js
+ospect.js
 ↓
 Collectors
 ├── System
@@ -82,7 +82,7 @@ Displays the final information in the CLI.
 
 ## Platform Support
 
-Server Doctor is designed to support:
+Ospect is designed to support:
 
 - macOS
 - Linux

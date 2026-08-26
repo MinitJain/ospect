@@ -1,17 +1,17 @@
 {
-  "name": "server-doctor",
+  "name": "ospect",
   "version": "0.0.1",
-  "description": "A Linux server diagnostics CLI built with Node.js.",
-  "main": "server-doctor.js",
+  "description": "A cross-platform system diagnostics CLI built with Node.js.",
+  "main": "ospect.js",
   "bin": {
-    "server-doctor": "./server-doctor.js"
+    "ospect": "./ospect.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MinitJain/server-doctor.git"
+    "url": "git+https://github.com/MinitJain/ospect.git"
   },
   "keywords": [
     "linux",
@@ -24,7 +24,10 @@
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/MinitJain/server-doctor/issues"
+    "url": "https://github.com/MinitJain/ospect/issues"
   },
-  "homepage": "https://github.com/MinitJain/server-doctor#readme"
+  "homepage": "https://github.com/MinitJain/ospect#readme",
+  "dependencies": {
+    "chalk": "^4.1.2"
+  }
 }

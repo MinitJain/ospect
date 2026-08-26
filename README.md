@@ -1,22 +1,22 @@
-# server Doctor
+# Ospect
 
 A cross platform system diagnostics CLI
 
 Features
-• System information
-• Memory usage
-• CPU information
-• Process monitoring
-• Health checks
-• Recommendations
+- System information
+- Memory usage
+- CPU information
+- Process monitoring
+- Health checks
+- Recommendations
 
 Installation
-npm install -g server-doctor
+npm install -g ospect
 
 Usage
-server-doctor
-server-doctor --help
-server-doctor --version
+ospect
+ospect --help
+ospect --version
 
 Current version
 0.0.1

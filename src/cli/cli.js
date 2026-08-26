@@ -3,12 +3,12 @@ function runCLI() {
 
   if (args.includes("--help") || args.includes("-h")) {
     console.log(`
-Server Doctor
+Ospect
 
 Usage:
-  server-doctor
-  server-doctor --help
-  server-doctor --version
+  ospect
+  ospect --help
+  ospect --version
 
 Options:
   -h, --help       Show this help message
@@ -19,7 +19,7 @@ Options:
   }
 
   if (args.includes("--version") || args.includes("-v")) {
-    console.log("Server Doctor v0.0.1");
+    console.log("Ospect v0.0.1");
     return true;
   }
 
