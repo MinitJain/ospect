@@ -1,10 +1,10 @@
 {
-  "name": "ospect",
+  "name": "@minitjain/ospect",
   "version": "0.0.1",
   "description": "A cross-platform system diagnostics CLI built with Node.js.",
   "main": "ospect.js",
   "bin": {
-    "ospect": "./ospect.js"
+    "ospect": "ospect.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
