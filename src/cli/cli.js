@@ -1,3 +1,5 @@
+const packageJson = require("../../package.json");
+
 function runCLI() {
   const args = process.argv.slice(2);
 
@@ -19,7 +21,7 @@ Options:
   }
 
   if (args.includes("--version") || args.includes("-v")) {
-    console.log("Ospect v0.0.1");
+    console.log(`ospect v${packageJson.version}`);
     return true;
   }
 
