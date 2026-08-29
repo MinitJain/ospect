@@ -1,64 +1,9 @@
-const { execFileSync } = require("child_process");
-const path = require("path");
+const platform = process.platform;
 
-function getProcessName(command) {
-  if (!command) {
-    return "Unknown";
-  }
-
-  const appMatch = command.match(/\/([^/]+)\.app\//);
-
-  if (appMatch) {
-    return appMatch[1];
-  }
-
-  const executable = command.split(/\s+/)[0];
-
-  return path.basename(executable);
+if (platform === "darwin") {
+  module.exports = require("./processInfo.macos");
+} else if (platform === "linux") {
+  module.exports = require("./processInfo.linux");
+} else {
+  throw new Error(`Unsupported platform: ${platform}`);
 }
-
-function getProcessInfo() {
-  const output = execFileSync(
-    "ps",
-    ["-ww", "-axo", "pid=,args=,%cpu=,%mem=,rss="],
-    {
-      encoding: "utf8",
-    },
-  );
-
-  const lines = output.trim().split("\n");
-
-  const processes = lines.map((line) => {
-    const parts = line.trim().split(/\s+/);
-
-    const pid = Number(parts[0]);
-    const cpu = Number(parts[parts.length - 3]);
-    const memory = Number(parts[parts.length - 2]);
-    const rss = Number(parts[parts.length - 1]);
-
-    const command = parts.slice(1, -3).join(" ");
-
-    return {
-      pid,
-      command: getProcessName(command),
-      cpu,
-      memory,
-      rss,
-    };
-  });
-
-  const topCPUProcesses = [...processes]
-    .sort((a, b) => b.cpu - a.cpu)
-    .slice(0, 5);
-
-  const topMemoryProcesses = [...processes]
-    .sort((a, b) => b.memory - a.memory)
-    .slice(0, 5);
-
-  return {
-    topCPUProcesses,
-    topMemoryProcesses,
-  };
-}
-
-module.exports = getProcessInfo;
