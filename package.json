@@ -1,6 +1,6 @@
 {
   "name": "@minitjain/ospect",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A cross-platform system diagnostics CLI built with Node.js.",
   "main": "ospect.js",
   "bin": {
