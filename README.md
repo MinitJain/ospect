@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/MinitJain/ospect/main/assets/logo-256.png" alt="ospect logo" width="96">
+</p>
+
 # Ospect
 
 ![total downloads](https://img.shields.io/npm/dt/@minitjain/ospect)
