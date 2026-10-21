@@ -1,7 +1,7 @@
 {
   "name": "@minitjain/ospect",
   "version": "0.0.4",
-  "description": "A cross-platform system diagnostics CLI built with Node.js.",
+  "description": "A system diagnostics CLI for macOS and Linux, built with Node.js.",
   "main": "ospect.js",
   "bin": {
     "ospect": "ospect.js"
@@ -20,7 +20,7 @@
     "system-monitoring",
     "diagnostics"
   ],
-  "author": "",
+  "author": "Minit Jain",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {

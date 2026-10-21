@@ -12,15 +12,22 @@ function getProcessName(command) {
     return appMatch[1];
   }
 
-  const executable = command.split(/\s+/)[0];
+  return path.basename(command);
+}
 
-  return path.basename(executable);
+// Apple's own processes; users can't (and shouldn't) quit these.
+function isSystemProcess(command) {
+  return (
+    command === "kernel_task" ||
+    /^\/(System|sbin|bin|Library\/Apple)\//.test(command) ||
+    /^\/usr\/(?!local\/)/.test(command)
+  );
 }
 
 function getProcessInfo() {
   const output = execFileSync(
     "ps",
-    ["-ww", "-axo", "pid=,%cpu=,%mem=,rss=,args="],
+    ["-ww", "-axo", "pid=,%cpu=,%mem=,rss=,comm="],
     {
       encoding: "utf8",
     },
@@ -36,12 +43,14 @@ function getProcessInfo() {
     const memory = Number(parts[2]);
     const rss = Number(parts[3]);
 
-    // args must be the last column: macOS ps truncates it otherwise.
+    // comm is the full executable path (no arguments). It must be the
+    // last column: macOS ps truncates it otherwise.
     const command = parts.slice(4).join(" ");
 
     return {
       pid,
       command: getProcessName(command),
+      system: isSystemProcess(command),
       cpu,
       memory,
       rss,
@@ -63,3 +72,5 @@ function getProcessInfo() {
 }
 
 module.exports = getProcessInfo;
+module.exports.getProcessName = getProcessName;
+module.exports.isSystemProcess = isSystemProcess;

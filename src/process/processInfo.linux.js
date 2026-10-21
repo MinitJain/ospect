@@ -11,6 +11,11 @@ function getProcessName(command) {
   return path.basename(executable);
 }
 
+// Kernel threads ([kworker/0:1]) and system daemons; not for users to quit.
+function isSystemProcess(command) {
+  return /^(\[|\/(usr\/)?sbin\/|\/(usr\/)?lib\/systemd\/)/.test(command);
+}
+
 function getProcessInfo() {
   const output = execFileSync(
     "ps",
@@ -30,12 +35,13 @@ function getProcessInfo() {
     const memory = Number(parts[2]);
     const rss = Number(parts[3]);
 
-    // args must be the last column: macOS ps truncates it otherwise.
+    // args must be the last column so it is never truncated.
     const command = parts.slice(4).join(" ");
 
     return {
       pid,
       command: getProcessName(command),
+      system: isSystemProcess(command),
       cpu,
       memory,
       rss,
@@ -57,3 +63,4 @@ function getProcessInfo() {
 }
 
 module.exports = getProcessInfo;
+module.exports.isSystemProcess = isSystemProcess;

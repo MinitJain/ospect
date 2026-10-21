@@ -4,8 +4,13 @@ const HIGH_CPU = 50;
 function getRecommendations(report) {
   const recommendations = [];
   const { status, value } = report.healthStatus;
-  const topMemoryProcess = report.processInfo.topMemoryProcesses[0];
-  const topCPUProcess = report.processInfo.topCPUProcesses[0];
+  // Only suggest quitting things the user can actually quit.
+  const topMemoryProcess = report.processInfo.topMemoryProcesses.find(
+    (p) => !p.system,
+  );
+  const topCPUProcess = report.processInfo.topCPUProcesses.find(
+    (p) => !p.system,
+  );
 
   if (status !== "healthy") {
     const usage = `Memory is at ${value.toFixed(1)}%.`;
