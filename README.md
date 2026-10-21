@@ -1,5 +1,9 @@
 # Ospect
 
+![total downloads](https://img.shields.io/npm/dt/@minitjain/ospect)
+![monthly downloads](https://img.shields.io/npm/dm/@minitjain/ospect)
+![weekly downloads](https://img.shields.io/npm/dw/@minitjain/ospect)
+
 A terminal system report for macOS and Linux. Collects system info, memory, CPU, and process data, runs health checks, and gives recommendations.
 
 ## Install
