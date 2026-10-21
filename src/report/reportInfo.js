@@ -214,8 +214,8 @@ function printProcessTable(processes) {
     console.log(
       "  " +
         pad(p.pid, 8) +
-        pad(p.cpu + "%", 8) +
-        pad(p.memory + "%", 8) +
+        pad(p.cpu.toFixed(1) + "%", 8) +
+        pad(p.memory.toFixed(1) + "%", 8) +
         pad(rss, 12) +
         command,
     );

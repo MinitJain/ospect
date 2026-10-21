@@ -3,64 +3,51 @@ const assert = require("node:assert");
 
 const getRecommendations = require("../src/recommendations/recommendations");
 
-test("recommends action when memory usage is critical", () => {
-  const report = {
-    healthStatus: {
-      status: "critical",
-    },
-    processInfo: {
-      topMemoryProcesses: [],
-      topCPUProcesses: [],
-    },
+function makeReport({ status = "healthy", value = 50, memory = [], cpu = [] }) {
+  return {
+    healthStatus: { status, value },
+    processInfo: { topMemoryProcesses: memory, topCPUProcesses: cpu },
   };
+}
 
-  const result = getRecommendations(report);
-
-  assert.ok(
-    result.includes(
-      "Memory usage is critically high. Consider closing memory intensive applications.",
-    ),
+test("suggests quitting the top memory process when memory is high", () => {
+  const result = getRecommendations(
+    makeReport({
+      status: "warning",
+      value: 82.94,
+      memory: [{ command: "OrbStack", memory: 5.4, rss: 902042 }],
+    }),
   );
+
+  assert.deepStrictEqual(result, [
+    "Memory is at 82.9%. Quitting OrbStack would free about 881 MB.",
+  ]);
 });
 
-test("recommends the process using the most memory", () => {
-  const report = {
-    healthStatus: {
-      status: "healthy",
-    },
-    processInfo: {
-      topMemoryProcesses: [
-        {
-          command: "VS Code",
-          memory: 12.5,
-        },
-      ],
-      topCPUProcesses: [],
-    },
-  };
+test("asks to close apps when memory is high and no process is known", () => {
+  const result = getRecommendations(
+    makeReport({ status: "critical", value: 95 }),
+  );
 
-  const result = getRecommendations(report);
-
-  assert.ok(result.includes("Highest memory usage: VS Code (12.5%)."));
+  assert.deepStrictEqual(result, [
+    "Memory is at 95.0%. Close apps you are not using.",
+  ]);
 });
 
-test("recommends the process using the most CPU", () => {
-  const report = {
-    healthStatus: {
-      status: "healthy",
-    },
-    processInfo: {
-      topMemoryProcesses: [],
-      topCPUProcesses: [
-        {
-          command: "node",
-          cpu: 45.5,
-        },
-      ],
-    },
-  };
+test("calls out a process using a lot of CPU", () => {
+  const result = getRecommendations(
+    makeReport({ cpu: [{ command: "Discord", cpu: 64.25 }] }),
+  );
 
-  const result = getRecommendations(report);
+  assert.deepStrictEqual(result, [
+    "Discord is using 64.3% CPU. Quit or restart it if you are not using it.",
+  ]);
+});
 
-  assert.ok(result.includes("Highest CPU usage: node (45.5%)."));
+test("says nothing needs attention when all is well", () => {
+  const result = getRecommendations(
+    makeReport({ cpu: [{ command: "node", cpu: 12 }] }),
+  );
+
+  assert.deepStrictEqual(result, ["Nothing needs attention."]);
 });
