@@ -20,7 +20,7 @@ function getProcessName(command) {
 function getProcessInfo() {
   const output = execFileSync(
     "ps",
-    ["-ww", "-axo", "pid=,args=,%cpu=,%mem=,rss="],
+    ["-ww", "-axo", "pid=,%cpu=,%mem=,rss=,args="],
     {
       encoding: "utf8",
     },
@@ -32,11 +32,12 @@ function getProcessInfo() {
     const parts = line.trim().split(/\s+/);
 
     const pid = Number(parts[0]);
-    const cpu = Number(parts[parts.length - 3]);
-    const memory = Number(parts[parts.length - 2]);
-    const rss = Number(parts[parts.length - 1]);
+    const cpu = Number(parts[1]);
+    const memory = Number(parts[2]);
+    const rss = Number(parts[3]);
 
-    const command = parts.slice(1, -3).join(" ");
+    // args must be the last column: macOS ps truncates it otherwise.
+    const command = parts.slice(4).join(" ");
 
     return {
       pid,
