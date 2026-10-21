@@ -46,7 +46,7 @@ ospect --version    Show version
 - 80–90%: warning
 - Above 90%: critical
 
-**Recommendations** — actionable suggestions based on the health status and top processes
+**Recommendations** — what to quit when memory is high or an app is using a lot of CPU, and how much memory it would free
 
 ## Example output
 
@@ -65,38 +65,40 @@ CPU
   Logical CPUs    10
 
 MEMORY
-  Usage           62.40%  ████████████████░░░░░░░░░░░░  9.98 GB / 16.00 GB
+  Usage           82.63%  █████████████████████████░░░░░  13.22 GB / 16.00 GB
   Total           16.00 GB
-  Free            6.02 GB
+  Free            2.78 GB
 
 HEALTH
-  Status          ● Healthy
-  Message         Memory usage is healthy
-  Value           62.40%
-  Top Process     Node (PID 12345, 3.2% mem)
+  Status          ● Warning
+  Message         Memory usage is high
+  Value           82.63%
+  Top Process     Discord (PID 389, 3.2% mem)
 
 TOP PROCESSES BY MEMORY
   PID     CPU%    MEM%    RSS         COMMAND
   ────────────────────────────────────────────────────────────────────
-  12345   2.1%    3.2%    524.3 MB    Node
-  67890   0.5%    2.8%    456.1 MB    Brave Browser
+  389     34.1%   3.2%    519.2 MB    Discord
+  43636   64.0%   2.5%    407.0 MB    OrbStack
+  98936   0.1%    2.0%    325.9 MB    Visual Studio Code
+  89983   26.5%   1.9%    304.6 MB    Brave Browser
   11223   1.0%    1.5%    245.7 MB    Spotify
-  44556   0.3%    1.2%    196.4 MB    Slack
-  78901   0.1%    0.9%    147.2 MB    VS Code
 
 TOP PROCESSES BY CPU
   PID     CPU%    MEM%    RSS         COMMAND
   ────────────────────────────────────────────────────────────────────
-  12345   2.1%    3.2%    524.3 MB    Node
-  11223   1.0%    1.5%    245.7 MB    Spotify
-  67890   0.5%    2.8%    456.1 MB    Brave Browser
-  44556   0.3%    1.2%    196.4 MB    Slack
-  78901   0.1%    0.9%    147.2 MB    VS Code
+  90359   87.6%   0.1%    20.0 MB     mobileassetd
+  43636   64.0%   2.5%    407.0 MB    OrbStack
+  395     43.5%   0.3%    52.5 MB     WindowServer
+  389     34.1%   3.2%    519.2 MB    Discord
+  89983   26.5%   1.9%    304.6 MB    Brave Browser
 
 RECOMMENDATIONS
-  1. Highest memory usage: Node (3.2%).
-  2. Highest CPU usage: Node (2.1%).
+  1. Memory is at 82.6%. Quitting Discord would free about 519 MB.
+  2. OrbStack is using 64.0% CPU. Quit or restart it if you are not using it.
 ```
+
+System processes (like `mobileassetd` above) are never suggested for quitting.
 
 ## Development
 

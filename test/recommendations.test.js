@@ -51,3 +51,25 @@ test("says nothing needs attention when all is well", () => {
 
   assert.deepStrictEqual(result, ["Nothing needs attention."]);
 });
+
+test("skips system processes when suggesting what to quit", () => {
+  const result = getRecommendations(
+    makeReport({
+      status: "warning",
+      value: 85,
+      memory: [
+        { command: "WindowServer", rss: 500000, system: true },
+        { command: "Discord", rss: 824000 },
+      ],
+      cpu: [
+        { command: "mediaanalysisd", cpu: 90, system: true },
+        { command: "OrbStack", cpu: 68.4 },
+      ],
+    }),
+  );
+
+  assert.deepStrictEqual(result, [
+    "Memory is at 85.0%. Quitting Discord would free about 805 MB.",
+    "OrbStack is using 68.4% CPU. Quit or restart it if you are not using it.",
+  ]);
+});
